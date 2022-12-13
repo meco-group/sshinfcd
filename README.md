@@ -96,6 +96,7 @@ The `opts.synthesis.solver` field admits three options, all of which are strings
 * `'lmilab'` - uses [LMI Lab](https://nl.mathworks.com/help/robust/lmis.html) from The Mathworks' Robust Control Toolbox as SDP solver. (_default_)
 * `'yalmip'` - uses [YALMIP](https://yalmip.github.io/) as backend to solve the SDP. Make sure YALMIP is on your MATLAB path. 
 * `'cvx'`- uses [CVX](http://cvxr.com/cvx/) as backend to solve the SDP. Make sure CVX is on your MATLAB path. 
+
 All of these three SDP solvers also offer the possibility to set options:
 
 ##### lmilab.options
@@ -137,6 +138,7 @@ $$
 In order to convexify the problem, `sshinfcd` looks for a common quadratic Lyapunov function that satisfies all performance constraints, just like other classic LMI approach to $\mathcal{H}_\infty$ control do. This is often referred to as 'Lyapunov shaping', a term coined by [Scherer et al., 1997](https://doi.org/10.1109/9.599969). The idea is easily summarized as follow. Let $\mathcal{A},\mathcal{B}_i,\mathcal{C}_i,\mathcal{D}_i$ be the closed-loop state-space matrices of performance channel $T_i$. Then, the associated bilinear matrix inequalities (BMIs) are
 
 $$
+\small
 \left\\{
 \begin{array}{l}
 \mathcal{P}_i \succeq 0 \\
