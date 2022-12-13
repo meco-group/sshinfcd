@@ -197,8 +197,10 @@ Note that this is a heuristic and is not guaranteed to eventually lead to the be
 
 ## Using `sshinfd` and referring to it
 
-`sshinfcd` is released under the LGPLv3 terms and conditions and can, thus, be freely used for both non-commercial and commercial use. If you use it in your work, please cite 
+`sshinfcd` is released under the LGPLv3 terms and conditions and can, thus, be freely used for both non-commercial and commercial use. Note that 3<sup>rd</sup> party plugins (such as YALMIP, CVX, and SDP solvers) that you can use with `sshinfcd` may still restrict applicability for your use case. 
+
+If you use `sshinfcd` in your work, please cite 
 
 * L. Jacobs and J. Swevers (2023). 'Extending H∞ control design with D-stability constraints: Solution and applications'. Submitted for the 7th IEEE Conference on Control Technology and Applications (CCTA). 
 
-`sshinfcd` is written by Laurens Jacobs, who is (at the time of development) financially supported by a postdoctoral research fellowship from [Flanders Innovation and Entrepreneurship](https://www.vlaio.be/en) (VLAIO) through project HBC.2021.0200. 
+The package is written by Laurens Jacobs, who is (at the time of development) financially supported by a postdoctoral research fellowship from [Flanders Innovation and Entrepreneurship](https://www.vlaio.be/en) (VLAIO) through project HBC.2021.0200. 
