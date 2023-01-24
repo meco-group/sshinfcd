@@ -201,6 +201,6 @@ Note that this is a heuristic and is not guaranteed to eventually lead to the be
 
 If you use `sshinfcd` in your work, please cite 
 
-* L. Jacobs and J. Swevers (2023). 'Extending H∞ control design with D-stability constraints: Solution and applications'. Submitted for the 7th IEEE Conference on Control Technology and Applications (CCTA). 
+* L. Jacobs and J. Swevers (2023). 'H∞ control design with D-unstable weighting filters and a D-stability constraint: Solution and applications'. Submitted for the 7th IEEE Conference on Control Technology and Applications (CCTA). 
 
 The package is written by Laurens Jacobs, who is (at the time of development) financially supported by a postdoctoral research fellowship from [Flanders Innovation and Entrepreneurship](https://www.vlaio.be/en) (VLAIO) through project HBC.2021.0200. 
