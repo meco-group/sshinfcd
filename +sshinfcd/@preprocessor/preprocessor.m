@@ -86,24 +86,30 @@ classdef preprocessor
                 switch opts_.synthesis.lyapunovshape 
                     case 1
                         for i=1:length(obj.prob.specs)
+                            j = 1; 
                             if isobj(i)
-                                PRE(obj.prob.specs(i).in,obj.prob.specs(i).in) = 1/sqrt(gamma(i))*eye(length(obj.prob.specs(i).in));
-                                POST(obj.prob.specs(i).out,obj.prob.specs(i).out) = 1/sqrt(gamma(i))*eye(length(obj.prob.specs(i).in));
-                                obj.prob.specs(i).weight = obj.prob.specs(i).weight*gamma(i); 
+                                PRE(obj.prob.specs(i).in,obj.prob.specs(i).in) = 1/sqrt(gamma(j))*eye(length(obj.prob.specs(i).in));
+                                POST(obj.prob.specs(i).out,obj.prob.specs(i).out) = 1/sqrt(gamma(j))*eye(length(obj.prob.specs(i).in));
+                                obj.prob.specs(i).weight = obj.prob.specs(i).weight*gamma(j); 
+                                j = j+1;
                             end
                         end
                     case 2
                         for i=1:length(obj.prob.specs)
+                            j = 1; 
                             if isobj(i)
-                                PRE(obj.prob.specs(i).in,obj.prob.specs(i).in) = 1/gamma(i)*eye(length(obj.prob.specs(i).in));
-                                obj.prob.specs(i).weight = obj.prob.specs(i).weight*gamma(i)^2; 
+                                PRE(obj.prob.specs(i).in,obj.prob.specs(i).in) = 1/gamma(j)*eye(length(obj.prob.specs(i).in));
+                                obj.prob.specs(i).weight = obj.prob.specs(i).weight*gamma(j)^2; 
+                                j = j+1;
                             end
                         end
                     case 3
                         for i=1:length(obj.prob.specs)
+                            j = 1; 
                             if isobj(i)
-                                POST(obj.prob.specs(i).out,obj.prob.specs(i).out) = 1/gamma(i)*eye(length(obj.prob.specs(i).out));
-                                obj.prob.specs(i).weight = obj.prob.specs(i).weight*gamma(i)^2; 
+                                POST(obj.prob.specs(i).out,obj.prob.specs(i).out) = 1/gamma(j)*eye(length(obj.prob.specs(i).out));
+                                obj.prob.specs(i).weight = obj.prob.specs(i).weight*gamma(j)^2; 
+                                j = j+1;
                             end
                         end
                 end
