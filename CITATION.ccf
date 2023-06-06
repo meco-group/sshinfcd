@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Jacobs"
+  given-names: "Laurens"
+  orcid: "http://orcid.org/0000-0002-5734-6841"
+title: "sshinfcd - State-space H∞ control design for LTI systems"
+version: CCTA2023
+doi: 10.5281/zenodo.1234
+date-released: 2023-06-06
+url: "https://github.com/meco-group/sshinfcd/"
+preferred-citation:
+  type: conference-paper
+  authors:
+  - family-names: "Jacobs"
+    given-names: "Laurens"
+    orcid: "http://orcid.org/0000-0002-5734-6841"
+  - family-names: "Swevers"
+    given-names: "Jan"
+    orcid: "http://orcid.org/0000-0003-2034-5519"
+  doi: ""
+  journal: "7th IEEE Conference on Control Technology and Applications (CCTA), Bridgetown, Barbados"
+  title: "H∞ control design with D-unstable weighting filters and a D-stability constraint: Solution and applications"
+  year: 2023
