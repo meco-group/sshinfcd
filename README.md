@@ -1,5 +1,7 @@
 # sshinfcd - State-space $\mathcal{H}_\infty$ control design for LTI systems
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8010734.svg)](https://doi.org/10.5281/zenodo.8010734)
+
 `sshinfcd` is a MATLAB package facilitating multi-objective $\mathcal{H}_\infty$ controller synthesis with $\mathcal{D}$-stability constraints. It is a relatively straightforward implementation of a combination of the LMI formulations discussed in
 
 * H. Köroğlu. ['H∞ synthesis with unstable weighting filters: An LMI solution.'](http://dx.doi.org/10.1109/CDC.2013.6760244) 52nd IEEE Conference on Decision and Control, pp. 2429-2434, 2013.
