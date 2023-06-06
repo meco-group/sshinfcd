@@ -18,7 +18,11 @@ preferred-citation:
   - family-names: "Swevers"
     given-names: "Jan"
     orcid: "http://orcid.org/0000-0003-2034-5519"
-  doi: ""
-  journal: "7th IEEE Conference on Control Technology and Applications (CCTA), Bridgetown, Barbados"
+  conference:
+  - name:  7th IEEE Conference on Control Technology and Applications (CCTA)
+    city: Bridgetown
+    country: BB
+    date-start: 2023-08-16
+    date-end: 2017-08-18
   title: "H∞ control design with D-unstable weighting filters and a D-stability constraint: Solution and applications"
   year: 2023
