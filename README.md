@@ -25,9 +25,9 @@ Consider the classic generalized feedback control configuration shown in the sch
 `sshinfcd` then aims to find the state-space system $K$ (= controller) as the solution of the multiobjective $\mathcal{H}_\infty$ optimization problem
 
 $$
-\begin{alignat}{2}
-    \underset{{K}}{\text{minimize}} \quad  &   \sum_{i \in \mathbb{I}_\text{o}} \alpha_i \ \left\|\textrm{MR}\left[\mathbf{T}_i\right]\right\|_\infty \\
-    \text{subject to} \quad                &   \left\|\textrm{MR}\left[{T}_j\right]\right\|_\infty \leq 1, \forall j \in \mathbb{I}_\text{c} \\
+\begin{alignat}{2} 
+    \underset{{K}}{\text{minimize}} \quad  &   \sum_ {i \in \mathbb{I}_ \text{o}} \alpha_ i \ \left\|\textrm{MR}\left[\mathbf{T}_ i\right]\right\|_ \infty \\
+    \text{subject to} \quad                &   \left\|\textrm{MR}\left[{T}_ j \right]\right\|_ {\infty}  \leq 1, \forall j \in \mathbb{I}_\text{c} \\
                                            &   \text{MR}[W_o\mathcal{F}_l({P},{K})W_i] \text{ is } \mathcal{D}\text{-stable}
 \end{alignat}
 $$
