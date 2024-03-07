@@ -28,7 +28,7 @@ function [GS,GNS] = stabsep(G,region)
     end
 
     % go to the modal realization and separate modes
-    G = modreal(G);
+    G = canon(G,'modal');
     i = 1;
     is = [];
     ius = [];
