@@ -97,7 +97,7 @@ function sdpvars = ct_synthesis_YALMIP(prob,opts)
                         prob.watchdog.error('The Lyapunov shaping format can only be of type 1 (-gamma,-gamma), type 2 (-gamma^2,-1) or type 3 (-1,-gamma^2).'); 
                 end
             end
-            Dzw(prob.specs(i).out,prob.specs(i).in) = Dzwcst(prob.specs(i).out,prob.specs(i).in) + Dzucst(prob.specs(i).out,prob.nu())*Dc*Dywcst(prob.ny(),prob.specs(i).in);
+            Dzw(prob.specs(i).out,prob.specs(i).in) = Dzwcst(prob.specs(i).out,prob.specs(i).in) + Dzucst(prob.specs(i).out,:)*Dc*Dywcst(:,prob.specs(i).in);
         end
         
     % formulate LMIs
@@ -212,7 +212,7 @@ function sdpvars = ct_synthesis_CVX(prob, opts)
             % Dzw
             eval(['variable slackdh' num2str(i) '(size(Dzw,1),length(prob.specs(i).in))']);
             eval(['variable slackdv' num2str(i) '(length(prob.specs(i).out),size(Dzw,2))']);
-            eval(['Dzw = [Dzw slackdh' num2str(i) '; slackdv' num2str(i) ' (Dzwcst(prob.specs(i).out,prob.specs(i).in)+Dzucst(prob.specs(i).out,prob.nu())*Dc*Dywcst(prob.ny(),prob.specs(i).in))];']);
+            eval(['Dzw = [Dzw slackdh' num2str(i) '; slackdv' num2str(i) ' (Dzwcst(prob.specs(i).out,prob.specs(i).in)+Dzucst(prob.specs(i).out,:)*Dc*Dywcst(:,prob.specs(i).in))];']);
         end        
         
         % formulate LMIs
