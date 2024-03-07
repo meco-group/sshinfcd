@@ -1,5 +1,7 @@
 # sshinfcd - State-space $\mathcal{H}_\infty$ control design for LTI systems
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8010734.svg)](https://doi.org/10.5281/zenodo.8010734)
+
 `sshinfcd` is a MATLAB package facilitating multi-objective $\mathcal{H}_\infty$ controller synthesis with $\mathcal{D}$-stability constraints. It is a relatively straightforward implementation of a combination of the LMI formulations discussed in
 
 * H. Köroğlu. ['H∞ synthesis with unstable weighting filters: An LMI solution.'](http://dx.doi.org/10.1109/CDC.2013.6760244) 52nd IEEE Conference on Decision and Control, pp. 2429-2434, 2013.
@@ -25,9 +27,9 @@ Consider the classic generalized feedback control configuration shown in the sch
 `sshinfcd` then aims to find the state-space system $K$ (= controller) as the solution of the multiobjective $\mathcal{H}_\infty$ optimization problem
 
 $$
-\begin{alignat}{2}
-    \underset{{K}}{\text{minimize}} \quad  &   \sum_{i \in \mathbb{I}_\text{o}} \alpha_i \ \left\|\textrm{MR}\left[\mathbf{T}_i\right]\right\|_\infty \\
-    \text{subject to} \quad                &   \left\|\textrm{MR}\left[{T}_j\right]\right\|_\infty \leq 1, \forall j \in \mathbb{I}_\text{c} \\
+\begin{alignat}{2} 
+    \underset{{K}}{\text{minimize}} \quad  &   \sum_ {i \in \mathbb{I}_ \text{o}} \alpha_ i \ \left\|\textrm{MR}\left[\mathbf{T}_ i\right]\right\|_ \infty \\
+    \text{subject to} \quad                &   \left\|\textrm{MR}\left[{T}_ j \right]\right\|_ {\infty}  \leq 1, \forall j \in \mathbb{I}_\text{c} \\
                                            &   \text{MR}[W_o\mathcal{F}_l({P},{K})W_i] \text{ is } \mathcal{D}\text{-stable}
 \end{alignat}
 $$
@@ -201,6 +203,6 @@ Note that this is a heuristic and is not guaranteed to eventually lead to the be
 
 If you use `sshinfcd` in your work, please cite 
 
-* L. Jacobs and J. Swevers (2023). 'H∞ control design with D-unstable weighting filters and a D-stability constraint: Solution and applications'. Submitted for the 7th IEEE Conference on Control Technology and Applications (CCTA). 
+* L. Jacobs and J. Swevers (2023). 'H∞ control design with D-unstable weighting filters and a D-stability constraint: Solution and applications'. Accepted for the 7th IEEE Conference on Control Technology and Applications (CCTA). 
 
 The package is written by Laurens Jacobs, who is (at the time of development) financially supported by a postdoctoral research fellowship from [Flanders Innovation and Entrepreneurship](https://www.vlaio.be/en) (VLAIO) through project HBC.2021.0200. 
