@@ -112,9 +112,12 @@ function sdpvars = ct_synthesis_YALMIP(prob,opts)
                     prob.Czhat()*Y+prob.Dzuhat()*Nc,                                   prob.Czlmi()+prob.Dzuhat()*Dc*prob.Cytilde(),                               Dzw,                                                 -Gammaz                                         ]; 
  
         % D-STABILITY
+        DSTAB = {};
         for i=1:length(prob.region)
-            DSTAB{i} = kron(prob.region(i).L, STAB) + 2*kron(prob.region(i).M,[prob.Ahat()*Y+prob.Buhat()*Nc,     prob.PoTTASPilmi()+prob.Buhat()*Dc*prob.Cytilde();
-                                                                               Kc,                                X*prob.Atilde()+Mc*prob.Cytilde()                ]);
+            if ~(isempty(prob.region(i).M) && isempty(prob.region(i).L))
+                DSTAB{i} = kron(prob.region(i).L, STAB) + 2*kron(prob.region(i).M,[prob.Ahat()*Y+prob.Buhat()*Nc,     prob.PoTTASPilmi()+prob.Buhat()*Dc*prob.Cytilde();
+                                                                                   Kc,                                X*prob.Atilde()+Mc*prob.Cytilde()                ]);
+            end
         end
                      
    % optimize
@@ -227,10 +230,13 @@ function sdpvars = ct_synthesis_CVX(prob, opts)
                         prob.Czhat()*Y+prob.Dzuhat()*Nc,                                   prob.Czlmi()+prob.Dzuhat()*Dc*prob.Cytilde(),                               Dzw,                                                 -Gammaz                                         ]; 
 
             % D-STABILITY
+            DSTAB = {};
             for i=1:length(prob.region)
-                DSTAB{i} = kron(prob.region(i).L, STAB) + 2*kron(prob.region(i).M,[prob.Ahat()*Y+prob.Buhat()*Nc,     prob.PoTTASPilmi()+prob.Buhat()*Dc*prob.Cytilde();
-                                                                                   Kc,                                X*prob.Atilde()+Mc*prob.Cytilde()                ]);
-                DSTAB{i} = (0.5*(DSTAB{i}+DSTAB{i}') - opts.synthesis.zerotol*eye(size(DSTAB{i})) <= 0);
+                if ~(isempty(prob.region(i).M) && isempty(prob.region(i).L))
+                    DSTAB{i} = kron(prob.region(i).L, STAB) + 2*kron(prob.region(i).M,[prob.Ahat()*Y+prob.Buhat()*Nc,     prob.PoTTASPilmi()+prob.Buhat()*Dc*prob.Cytilde();
+                                                                                       Kc,                                X*prob.Atilde()+Mc*prob.Cytilde()                ]);
+                    DSTAB{i} = (0.5*(DSTAB{i}+DSTAB{i}') - opts.synthesis.zerotol*eye(size(DSTAB{i})) <= 0);
+                end
             end
                 
         % optimize
@@ -385,45 +391,47 @@ function sdpvars = ct_synthesis_LMILAB(prob,opts)
         % D-STABILITY 
         DSTAB = zeros(length(prob.region),1); 
         for i=1:length(DSTAB)
-            DSTAB(i) = newlmi(); 
-            for k=1:length(prob.region(i).L)
-                for l=k:length(prob.region(i).L)
-                    if l>k
-                        % first term
-                        lmiterm([DSTAB(i),2*k-1,2*l-1,Y],prob.region(i).L(k,l),1);
-                        lmiterm([DSTAB(i),2*k,2*l-1,0],prob.region(i).L(k,l)*prob.XI()');
-                        lmiterm([DSTAB(i),2*k,2*l,X],prob.region(i).L(k,l),1);
+            if ~(isempty(prob.region(i).M) && isempty(prob.region(i).L))
+                DSTAB(i) = newlmi(); 
+                for k=1:length(prob.region(i).L)
+                    for l=k:length(prob.region(i).L)
+                        if l>k
+                            % first term
+                            lmiterm([DSTAB(i),2*k-1,2*l-1,Y],prob.region(i).L(k,l),1);
+                            lmiterm([DSTAB(i),2*k,2*l-1,0],prob.region(i).L(k,l)*prob.XI()');
+                            lmiterm([DSTAB(i),2*k,2*l,X],prob.region(i).L(k,l),1);
 
-                        % second term
-                        lmiterm([DSTAB(i),2*k-1,2*l-1,Y],prob.region(i).M(k,l)*prob.Ahat(),1);
-                        lmiterm([DSTAB(i),2*k-1,2*l-1,Nc],prob.region(i).M(k,l)*prob.Buhat(),1);
-                        lmiterm([DSTAB(i),2*k-1,2*l-1,-Y],prob.region(i).M(l,k),prob.Ahat()');
-                        lmiterm([DSTAB(i),2*k-1,2*l-1,-Nc],prob.region(i).M(l,k),prob.Buhat()');
-                        lmiterm([DSTAB(i),2*k-1,2*l,Dc],prob.region(i).M(k,l)*prob.Buhat(),prob.Cytilde());
-                        lmiterm([DSTAB(i),2*k-1,2*l,0],prob.region(i).M(k,l)*prob.PoTTASPilmi());
-                        lmiterm([DSTAB(i),2*k-1,2*l,-Kc],prob.region(i).M(l,k),1);
-                        lmiterm([DSTAB(i),2*k,2*l,X],prob.region(i).M(k,l),prob.Atilde());
-                        lmiterm([DSTAB(i),2*k,2*l,Mc],prob.region(i).M(k,l),prob.Cytilde());
-                        lmiterm([DSTAB(i),2*k,2*l,-X],prob.region(i).M(l,k)*prob.Atilde()',1);
-                        lmiterm([DSTAB(i),2*k,2*l,-Mc],prob.region(i).M(l,k)*prob.Cytilde()',1);
-                    else % l == k -> explicitly tell LMILAB the diagonal block terms are symmetric, otherwise it'll whine
-                        % first term
-                        lmiterm([DSTAB(i),2*k-1,2*l-1,Y],prob.region(i).L(k,l),1);
-                        lmiterm([DSTAB(i),2*k,2*l-1,0],prob.region(i).L(k,l)*prob.XI()');
-                        lmiterm([DSTAB(i),2*k,2*l,X],prob.region(i).L(k,l),1);
+                            % second term
+                            lmiterm([DSTAB(i),2*k-1,2*l-1,Y],prob.region(i).M(k,l)*prob.Ahat(),1);
+                            lmiterm([DSTAB(i),2*k-1,2*l-1,Nc],prob.region(i).M(k,l)*prob.Buhat(),1);
+                            lmiterm([DSTAB(i),2*k-1,2*l-1,-Y],prob.region(i).M(l,k),prob.Ahat()');
+                            lmiterm([DSTAB(i),2*k-1,2*l-1,-Nc],prob.region(i).M(l,k),prob.Buhat()');
+                            lmiterm([DSTAB(i),2*k-1,2*l,Dc],prob.region(i).M(k,l)*prob.Buhat(),prob.Cytilde());
+                            lmiterm([DSTAB(i),2*k-1,2*l,0],prob.region(i).M(k,l)*prob.PoTTASPilmi());
+                            lmiterm([DSTAB(i),2*k-1,2*l,-Kc],prob.region(i).M(l,k),1);
+                            lmiterm([DSTAB(i),2*k,2*l,X],prob.region(i).M(k,l),prob.Atilde());
+                            lmiterm([DSTAB(i),2*k,2*l,Mc],prob.region(i).M(k,l),prob.Cytilde());
+                            lmiterm([DSTAB(i),2*k,2*l,-X],prob.region(i).M(l,k)*prob.Atilde()',1);
+                            lmiterm([DSTAB(i),2*k,2*l,-Mc],prob.region(i).M(l,k)*prob.Cytilde()',1);
+                        else % l == k -> explicitly tell LMILAB the diagonal block terms are symmetric, otherwise it'll whine
+                            % first term
+                            lmiterm([DSTAB(i),2*k-1,2*l-1,Y],prob.region(i).L(k,l),1);
+                            lmiterm([DSTAB(i),2*k,2*l-1,0],prob.region(i).L(k,l)*prob.XI()');
+                            lmiterm([DSTAB(i),2*k,2*l,X],prob.region(i).L(k,l),1);
 
-                        % second term
-                        lmiterm([DSTAB(i),2*k-1,2*l-1,Y],prob.region(i).M(k,l)*prob.Ahat(),1,'s');
-                        lmiterm([DSTAB(i),2*k-1,2*l-1,Nc],prob.region(i).M(k,l)*prob.Buhat(),1,'s');
-                        lmiterm([DSTAB(i),2*k-1,2*l,Dc],prob.region(i).M(k,l)*prob.Buhat(),prob.Cytilde());
-                        lmiterm([DSTAB(i),2*k-1,2*l,0],prob.region(i).M(k,l)*prob.PoTTASPilmi());
-                        lmiterm([DSTAB(i),2*k-1,2*l,-Kc],prob.region(i).M(l,k),1);
-                        lmiterm([DSTAB(i),2*k,2*l,X],prob.region(i).M(k,l),prob.Atilde(),'s');
-                        lmiterm([DSTAB(i),2*k,2*l,Mc],prob.region(i).M(k,l),prob.Cytilde(),'s');
+                            % second term
+                            lmiterm([DSTAB(i),2*k-1,2*l-1,Y],prob.region(i).M(k,l)*prob.Ahat(),1,'s');
+                            lmiterm([DSTAB(i),2*k-1,2*l-1,Nc],prob.region(i).M(k,l)*prob.Buhat(),1,'s');
+                            lmiterm([DSTAB(i),2*k-1,2*l,Dc],prob.region(i).M(k,l)*prob.Buhat(),prob.Cytilde());
+                            lmiterm([DSTAB(i),2*k-1,2*l,0],prob.region(i).M(k,l)*prob.PoTTASPilmi());
+                            lmiterm([DSTAB(i),2*k-1,2*l,-Kc],prob.region(i).M(l,k),1);
+                            lmiterm([DSTAB(i),2*k,2*l,X],prob.region(i).M(k,l),prob.Atilde(),'s');
+                            lmiterm([DSTAB(i),2*k,2*l,Mc],prob.region(i).M(k,l),prob.Cytilde(),'s');
+                        end
+
+                        lmiterm([DSTAB(i),2*k-1,2*l-1,0],-opts.synthesis.zerotol);
+                        lmiterm([DSTAB(i),2*k,2*l,0],-opts.synthesis.zerotol); 
                     end
-                    
-                    lmiterm([DSTAB(i),2*k-1,2*l-1,0],-opts.synthesis.zerotol);
-                    lmiterm([DSTAB(i),2*k,2*l,0],-opts.synthesis.zerotol); 
                 end
             end
         end
