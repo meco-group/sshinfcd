@@ -102,8 +102,8 @@ function sdpvars = ct_synthesis_YALMIP(prob,opts)
         
     % formulate LMIs
         % STABILITY 
-        STAB = [X          prob.XI()'; 
-                prob.XI()  Y         ];
+        STAB = [Y           prob.XI(); 
+                prob.XI()'  X        ];
 
         % H-INFINITY PERFORMANCE 
         PERF =     [prob.Ahat()*Y+Y*prob.Ahat()'+prob.Buhat()*Nc+Nc'*prob.Buhat()',    prob.PoTTASPilmi()+prob.Buhat()*Dc*prob.Cytilde()+Kc',                      prob.Bwlmi()+prob.Buhat()*Dc*prob.Dywtilde(),        Y*prob.Czhat()'+Nc'*prob.Dzuhat()'              ;
@@ -220,8 +220,8 @@ function sdpvars = ct_synthesis_CVX(prob, opts)
         
         % formulate LMIs
             % STABILITY 
-            STAB = [X          prob.XI()'; 
-                    prob.XI()  Y         ];
+            STAB = [Y           prob.XI(); 
+                    prob.XI()'  X        ];
 
             % H-INFINITY PERFORMANCE 
             PERF =     [prob.Ahat()*Y+Y*prob.Ahat()'+prob.Buhat()*Nc+Nc'*prob.Buhat()',    prob.PoTTASPilmi()+prob.Buhat()*Dc*prob.Cytilde()+Kc',                      prob.Bwlmi()+prob.Buhat()*Dc*prob.Dywtilde(),        Y*prob.Czhat()'+Nc'*prob.Dzuhat()'              ;
