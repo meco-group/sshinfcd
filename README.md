@@ -94,7 +94,7 @@ opts = solver.options();
 where `solver` is an `sshinfcd` object. 
 
 #### synthesis.gammasolver
-The `opts.synthesis.solver` field admits three options, all of which are strings:
+The `opts.synthesis.gammasolver` field admits three options, all of which are strings:
 * `'lmilab'` - uses [LMI Lab](https://nl.mathworks.com/help/robust/lmis.html) from The Mathworks' Robust Control Toolbox as SDP solver. (_default_)
 * `'yalmip'` - uses [YALMIP](https://yalmip.github.io/) as backend to solve the SDP. Make sure YALMIP is on your MATLAB path. 
 * `'cvx'`- uses [CVX](http://cvxr.com/cvx/) as backend to solve the SDP. Make sure CVX is on your MATLAB path. 
