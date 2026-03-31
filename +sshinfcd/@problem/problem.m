@@ -52,9 +52,9 @@ classdef problem
             % construct the object
             assert(isa(watchdog,'sshinfcd.watchdog.watchdog'), 'Invalid watchdog.');
             obj.watchdog = watchdog; 
-            obj.P = P; 
-            obj.Wi = Wi;
-            obj.Wo = Wo; 
+            obj.P = P; if ~isempty(obj.P.E) && isdiag(obj.P.E) && ~any(diag(obj.P.E)-1); obj.P.E = []; end
+            obj.Wi = Wi; if ~isempty(obj.Wi.E) && isdiag(obj.Wi.E) && ~any(diag(obj.Wi.E)-1); obj.Wi.E = []; end 
+            obj.Wo = Wo; if ~isempty(obj.Wo.E) && isdiag(obj.Wo.E) && ~any(diag(obj.Wo.E)-1); obj.Wo.E = []; end 
             obj.specs = specs;
             obj.region = region; 
             
@@ -122,6 +122,8 @@ classdef problem
                 obj.specs(k).in = (chi+1):(chi+length(obj.specs(k).in)); chi = chi+length(obj.specs(k).in);
                 obj.specs(k).out = (cho+1):(cho+length(obj.specs(k).out)); cho = cho+length(obj.specs(k).out); 
             end
+            if ~isempty(obj.Wi.E) && isdiag(obj.Wi.E) && ~any(diag(obj.Wi.E)-1); obj.Wi.E = []; end 
+            if ~isempty(obj.Wo.E) && isdiag(obj.Wo.E) && ~any(diag(obj.Wo.E)-1); obj.Wo.E = []; end 
         end
         
         function checkassumptions(obj)
@@ -158,6 +160,9 @@ classdef problem
             obj.P = blkdiag([WOS ; eye(obj.ne())],eye(obj.ny()))*obj.P*blkdiag([eye(obj.nv()) WIS],eye(obj.nu())); 
             obj.Wi = [WIUS ; eye(obj.nw())]; 
             obj.Wo = [eye(obj.nz()) WOUS]; 
+            if ~isempty(obj.Wi.E) && isdiag(obj.Wi.E) && ~any(diag(obj.Wi.E)-1); obj.Wi.E = []; end 
+            if ~isempty(obj.P.E) && isdiag(obj.P.E) && ~any(diag(obj.P.E)-1); obj.P.E = []; end
+            if ~isempty(obj.Wo.E) && isdiag(obj.Wo.E) && ~any(diag(obj.Wo.E)-1); obj.Wo.E = []; end 
         end
         
         %% Different canonical realizations
@@ -167,11 +172,17 @@ classdef problem
             obj.P = obj.watchdog.executeSilently('minreal(obj.P)','An error occured while calculating the minimal realization of the plant P. Check the logbook for more details.');
             obj.Wi = obj.watchdog.executeSilently('minreal(obj.Wi)','An error occured while calculating the minimal realization of the input filter Wi. Check the logbook for more details.');
             obj.Wo = obj.watchdog.executeSilently('minreal(obj.Wo)','An error occured while calculating the minimal realization of the output filter Wo. Check the logbook for more details.');
+            if ~isempty(obj.Wi.E) && isdiag(obj.Wi.E) && ~any(diag(obj.Wi.E)-1); obj.Wi.E = []; end 
+            if ~isempty(obj.P.E) && isdiag(obj.P.E) && ~any(diag(obj.P.E)-1); obj.P.E = []; end
+            if ~isempty(obj.Wo.E) && isdiag(obj.Wo.E) && ~any(diag(obj.Wo.E)-1); obj.Wo.E = []; end 
         end
         
         function obj = balreal(obj)
         % BALREAL Balances the stable finite dynamics of P
             obj.P = balreal(obj.P);
+            if ~isempty(obj.Wi.E) && isdiag(obj.Wi.E) && ~any(diag(obj.Wi.E)-1); obj.Wi.E = []; end 
+            if ~isempty(obj.P.E) && isdiag(obj.P.E) && ~any(diag(obj.P.E)-1); obj.P.E = []; end
+            if ~isempty(obj.Wo.E) && isdiag(obj.Wo.E) && ~any(diag(obj.Wo.E)-1); obj.Wo.E = []; end 
         end
         
         %% Sampling time
